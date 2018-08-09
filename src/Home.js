@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Alarm from './Awake';
 
 export default class Home extends Component {
   constructor() {
@@ -42,6 +43,11 @@ export default class Home extends Component {
   }
   render() {
     setInterval(() => this.setTime(), 100);
-    return <h1>{this.state.time}</h1>;
+    return (
+      <div>
+        <h1>{this.state.time}</h1>
+        <Alarm />
+      </div>
+    );
   }
 }
