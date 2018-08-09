@@ -1,7 +1,7 @@
-import Wake from './Wake';
+const Alarm = require('./Alarm');
 
 module.exports = {
   model: {
-    Wake
+    Alarm
   }
 };

@@ -1,7 +1,7 @@
 const conn = require('./conn');
 const { Sequelize } = conn;
 
-const Awake = conn.define('awake', {
+const Alarm = conn.define('awake', {
   time: {
     type: Sequelize.STRING
   },
@@ -10,4 +10,4 @@ const Awake = conn.define('awake', {
   }
 });
 
-module.exports = Awake;
+module.exports = Alarm;
