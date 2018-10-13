@@ -1,7 +1,7 @@
 const conn = require('./conn');
 const { Sequelize } = conn;
 
-const Alarm = conn.define('awake', {
+const Alarm = conn.define('alarm', {
   time: {
     type: Sequelize.STRING
   },
