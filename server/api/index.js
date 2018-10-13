@@ -2,6 +2,8 @@ const router = require('express').Router();
 const db = require('../db');
 const { Alarm } = db.model;
 const axios = require('axios');
+
+db.sync();
 router.get('/weather', (req, res, next) => {
   axios
     .get(
@@ -14,10 +16,35 @@ router.get('/weather', (req, res, next) => {
     .catch(next);
 });
 router.get('/setAlarm', (req, res, next) => {
-  // Alram.findOrCreateCart(time:req.query.time)
-  //   .spread(alarm => res.send(cart))
-  console.log(req.query.time, 'ok');
-  res.send('ok');
-  //.catch(next);
+  Alarm.findOrCreate({
+    where: { time: req.query.time },
+    defaults: { on: req.query.on }
+  })
+    .spread(alarm => {
+      res.send({ alarm, isNew: alarm._options.isNewRecord });
+    })
+    .catch(next);
 });
+router.get('/allAlarms', (req, res, next) => {
+  Alarm.findAll().then(alarms => res.send(alarms));
+});
+
+router.put('/editAlarm', (req, res, next) => {
+  Alarm.findById(req.body.alarm.id)
+    .then(alarm => {
+      Object.assign(alarm, req.body.alarm);
+      return alarm.save();
+    })
+    .then(alarm => res.sendStatus(200))
+    .catch(next);
+});
+
+router.delete('/deleteAlarm', (req, res, next) => {
+  const id = req.query.id;
+  Alarm.findById(id)
+    .then(alarm => alarm.destroy())
+    .then(() => res.sendStatus(204))
+    .catch(next);
+});
+
 module.exports = router;

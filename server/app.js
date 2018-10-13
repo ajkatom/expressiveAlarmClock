@@ -4,6 +4,7 @@ const app = express();
 
 app.use(require('body-parser').json());
 app.use('/dist', express.static(path.join(__dirname, '../dist')));
+app.use('/styles', express.static(path.join(__dirname, '../styles')));
 app.use((err, req, res, next) => {
   const message = err.errors && err.errors[0].message;
   err.message = message || err.message;
